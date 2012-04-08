@@ -4,7 +4,7 @@ import json
 import os
 
 from fritzomatic.generic_ic import generate_schematic
-from flask import Flask, Response
+from flask import send_from_directory, Flask, Response
 
 app = Flask(__name__)
 
@@ -16,6 +16,11 @@ def parse_component():
 @app.route('/')
 def homepage():
   return '<img src="/schematic">'
+
+@app.route('/favicon.ico')
+def favicon():
+   return send_from_directory(os.path.join(app.root_path, 'static'),
+       'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/schematic')
 def schematic():
