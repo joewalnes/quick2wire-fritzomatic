@@ -1,0 +1,79 @@
+{
+  "label": "MCP23008",
+  "type": "generic-IC",
+  "pins": 18,
+  "connectors": {
+    "1": {
+      "label": "SCL",
+      "description": ""
+    },
+    "2": {
+      "label": "SDA",
+      "description": ""
+    },
+    "3": {
+      "label": "A2",
+      "description": ""
+    },
+    "4": {
+      "label": "A1",
+      "description": ""
+    },
+    "5": {
+      "label": "A0",
+      "description": ""
+    },
+    "6": {
+      "label": "Reset",
+      "description": ""
+    },
+    "7": {
+      "label": "NC",
+      "description": ""
+    },
+    "8": {
+      "label": "INT",
+      "description": ""
+    },
+    "9": {
+      "label": "VSS",
+      "description": ""
+    },
+    "10": {
+      "label": "GP0",
+      "description": ""
+    },
+    "11": {
+      "label": "GP1",
+      "description": ""
+    },
+    "12": {
+      "label": "GP2",
+      "description": ""
+    },
+    "13": {
+      "label": "GP3",
+      "description": ""
+    },
+    "14": {
+      "label": "GP4",
+      "description": ""
+    },
+    "15": {
+      "label": "GP5",
+      "description": ""
+    },
+    "16": {
+      "label": "GP6",
+      "description": ""
+    },
+    "17": {
+      "label": "GP7",
+      "description": ""
+    },
+    "18": {
+      "label": "VDD",
+      "description": ""
+    }
+  }
+}
