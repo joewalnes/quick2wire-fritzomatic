@@ -12,3 +12,11 @@ schematics, and PCB layouts - assuming you have the necessary components.
 Unfortunately, building components is still a fairly tedious and messy
 process. This script automates that.
 
+
+Running
+-------
+
+Include this checkout directory in your `PYTHONPATH`.
+
+    export PYTHONPATH=.
+    ./fritzomatic/main.py examples/mcp23008.py
