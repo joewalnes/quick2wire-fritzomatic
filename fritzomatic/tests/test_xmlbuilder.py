@@ -6,6 +6,9 @@ from fritzomatic.xmlbuilder import XMLBuilder
 
 class XMLBuilderTestCase(unittest.TestCase):
 
+  def assertText(self, a, b):
+    self.assertEqual(str(a).strip(), str(b).strip())
+
   def test_it(self):
     node = XMLBuilder()
     with node('people'):
@@ -37,7 +40,19 @@ class XMLBuilderTestCase(unittest.TestCase):
   </person>
 </people>
  """
-    self.assertEqual(expected.strip(), str(node).strip())
+    self.assertText(expected, node)
+
+  def test_allows_reserved_word_to_be_specified_with_underscore_prefix(self):
+    node = XMLBuilder()
+    with node('people'):
+      node('person', _class='of 78')
+    expected = """
+<?xml version="1.0" ?>
+<people>
+  <person class="of 78"/>
+</people>
+ """
+    self.assertText(expected, node)
 
 if __name__ == '__main__':
   unittest.main()

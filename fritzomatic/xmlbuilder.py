@@ -4,6 +4,8 @@ Easy XML document builder.
 -Joe Walnes
 """
 
+import re
+
 from xml.dom.minidom import Document
 
 class XMLBuilder(object):
@@ -33,6 +35,10 @@ class XMLBuilder(object):
         <last-name>Christmas</last-name>
       </person>
     </people>
+
+  To specify attributes that have reserved Python words (e.g. 'class'),
+  you should give it an underscore prefix, which will be automatically
+  stripped. e.g. node('foo', _class='bar') -> <foo class="bar"/>
   """
   def __init__(self):
     self.document = Document()
@@ -44,7 +50,8 @@ class XMLBuilder(object):
     if text:
       el.appendChild(self.document.createTextNode(str(text)))
     for name in kwargs:
-      el.setAttribute(name, str(kwargs[name]))
+      cleaned_name = re.compile('^_').sub('', name)
+      el.setAttribute(cleaned_name, str(kwargs[name]))
     self.last = el
     self.parent.appendChild(el)
     return self

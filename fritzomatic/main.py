@@ -14,7 +14,14 @@ if __name__ == '__main__':
 
   with open(args.input) as f:
     component = json.load(f)
-    svg, warnings = generate_schematic(component)
+    svg, warnings, errors = generate_schematic(component)
+    for errors in errors:
+      print >> sys.stderr, 'WARNING:', warning
     for warning in warnings:
       print >> sys.stderr, 'WARNING:', warning
-    print svg
+    if len(errors):
+      print >> sys.stderr, 'FAILED'
+      sys.exit(1)
+    else:
+      print svg
+      sys.exit(0)
