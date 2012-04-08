@@ -20,3 +20,21 @@ Include this checkout directory in your `PYTHONPATH`.
 
     export PYTHONPATH=.
     ./fritzomatic/main.py examples/mcp23008.py
+
+The application is hosted on [Heroku Cedar Stack](https://devcenter.heroku.com/articles/cedar).
+
+Dependencies:
+
+    flask               # pip install flask
+    heroku toolbelt     # See https://toolbelt.heroku.com/
+
+To locally:
+
+   foreman start        # foreman is part of the Heroku Toolbelt
+   # Navigate to http://localhost:5000
+
+To deploy live:
+
+   git remote add heroku git@heroku.com:high-winter-2211.git     # one time setup
+   git push heroku master
+   # Navigate to http://fritzomatic.quick2wire.com/

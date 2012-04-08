@@ -1,14 +1,27 @@
 #!/usr/bin/env python
 
+import json
 import os
 
-from flask import Flask
+from fritzomatic.generic_ic import generate_schematic
+from flask import Flask, Response
 
 app = Flask(__name__)
 
+def parse_component():
+  # TODO: Really parse this from request
+  with open('examples/mcp23008.json') as f:
+    return json.load(f)
+
 @app.route('/')
-def hello():
-  return 'Hello World!'
+def homepage():
+  return '<img src="/schematic">'
+
+@app.route('/schematic')
+def schematic():
+  component = parse_component()
+  result, warnings, errors = generate_schematic(component)
+  return Response(str(result), mimetype='image/svg+xml')
 
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))
