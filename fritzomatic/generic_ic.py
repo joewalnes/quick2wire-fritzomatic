@@ -17,7 +17,7 @@ def generate_schematic(component):
     text {
       font-family: DroidSans;
     }
-    rect.outer-package {
+    rect.outer-package, line.connector {
       fill: none;
       stroke: #000000;
       stroke-width: 30;
@@ -55,11 +55,14 @@ def generate_schematic(component):
           warnings.append('Ignored connector "%s" - value should start at 1' % connector_id)
         elif n <= pins / 2:
           # Left
-          svg('text', connector.get('label', connector_id), x=390, y=300 * n + 50, _class='pin-label left')
+          level = n
+          svg('text', connector.get('label', connector_id), x=390, y=300 * level + 50, _class='pin-label left')
+          svg('line', x1=15, x2=300, y1=300 * level + 15, y2=300 * level + 15, _class='connector')
         elif n <= pins:
           # Right
-          svg('text', connector.get('label', connector_id), x=1440, y=300 * (pins + 1 - n) + 50, _class='pin-label right')
-          pass
+          level = pins + 1 - n
+          svg('text', connector.get('label', connector_id), x=1440, y=300 * level + 50, _class='pin-label right')
+          svg('line', x1=1515, x2=1800, y1=300 * level + 15, y2=300 * level + 15, _class='connector')
         else:
           warnings.append('Ignored connector "%s" because component only has %d pins.' % (connector_id, pins))
 
