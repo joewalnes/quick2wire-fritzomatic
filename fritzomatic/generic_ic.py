@@ -14,25 +14,42 @@ def generate_schematic(component):
     errors.append('Too many pins (max 100)') # Sanity check
 
   css = """
-    .pin-label {
-      font-size: 130px;
-      fill: #000000;
-      stroke: none;
+    text {
       font-family: DroidSans;
     }
-    .pin-label.left {
-      text-anchor: end;
+    rect.outer-package {
+      fill: none;
+      stroke: #000000;
+      stroke-width: 30;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
-    .pin-label.right {
+    text.label {
+      font-size: 235px;
+      line-height: 125%;
+      text-align: center;
+      text-anchor: middle;
+    }
+    text.pin-label {
+      font-size: 130px;
+    }
+    text.pin-label.left {
       text-anchor: start;
+    }
+    text.pin-label.right {
+      text-anchor: end;
     }
   """
 
   with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=164.7, height=302.70001, viewBox='0 0 1830 3363.333'):
     with svg('defs'):
       svg('style', css, type='text/css')
-    with svg('g', id='schematic'):
-      for connector_id, connector in component['connectors'].items():
+    with svg('g', id='schematic', transform='translate(0, 333)'):
+      # Title
+      svg('text', component.get('label', 'IC'), x=915, y=-100, _class='label')
+      # Outer package
+      svg('rect', x=315, y=15, width=1200, height=300 * pins / 2 + 300, _class='outer-package')
+      for connector_id, connector in component.get('connectors', {}).items():
         n = int(connector_id)
         if n < 1:
           warnings.append('Ignored connector "%s" - value should start at 1' % connector_id)
