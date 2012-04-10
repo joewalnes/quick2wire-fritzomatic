@@ -33,15 +33,9 @@ def generate_schematic(component):
     text.pin-label {
       font-size: 130px;
     }
-    text.pin-label.left {
-      text-anchor: start;
-    }
-    text.pin-label.right {
-      text-anchor: end;
-    }
   """
 
-  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=164.7, height=302.70001, viewBox='0 0 1830 3363.333'):
+  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=166, height=302.70001, viewBox='0 0 1515 ' + str(300 * pins / 2 + 670)):
     with svg('defs'):
       svg('style', css, type='text/css')
     with svg('g', id='schematic', transform='translate(0, 333)'):
@@ -56,12 +50,14 @@ def generate_schematic(component):
         elif n <= pins / 2:
           # Left
           level = n
-          svg('text', connector.get('label', connector_id), x=390, y=300 * level + 50, _class='pin-label left')
+          svg('text', connector.get('label', connector_id), x=390, y=300 * level + 50, _class='pin-label', style='text-anchor: start')
+          svg('text', n, x=234, y=300 * level - 30, _class='pin-label', style='text-anchor: end')
           svg('line', x1=15, x2=300, y1=300 * level + 15, y2=300 * level + 15, _class='connector')
         elif n <= pins:
           # Right
           level = pins + 1 - n
-          svg('text', connector.get('label', connector_id), x=1440, y=300 * level + 50, _class='pin-label right')
+          svg('text', connector.get('label', connector_id), x=1440, y=300 * level + 50, _class='pin-label', style='text-anchor: end')
+          svg('text', n, x=1595, y=300 * level - 30, _class='pin-label', style='text-anchor: start')
           svg('line', x1=1515, x2=1800, y1=300 * level + 15, y2=300 * level + 15, _class='connector')
         else:
           warnings.append('Ignored connector "%s" because component only has %d pins.' % (connector_id, pins))
