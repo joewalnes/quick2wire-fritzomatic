@@ -14,6 +14,66 @@ def validate(component):
 
   return warnings, errors
 
+def generate_breadboard(component):
+  svg = XMLBuilder()
+  warnings, errors = validate(component)
+
+  pins = component['pins']
+
+  css = """
+    rect, polygon, path, circle, text {
+      stroke-width: 0;
+    }
+    .label {
+      font-family: OCRA;
+      font-size: 80px;
+      text-anchor: start;
+    }
+  """
+
+  width = pins * 50
+  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 ' + str(width) + ' 330'):
+    with svg('defs'):
+      svg('style', css, type='text/css')
+    with svg('g', id='breadboard'):
+      # Main case
+      svg('rect', x=0, y=30   , width=width, height=270,  fill='#303030') # Main component
+      svg('rect', x=0, y=30   , width=width, height=24.6, fill='#3D3D3D') # Top edge
+      svg('rect', x=0, y=275.4, width=width, height=24.6, fill='#000000') # Bottom edge
+      svg('polygon', points='900,30,892.5,54.6,892.5,275.4,900,300'      , fill='#141414') # Right edge
+      svg('polygon', points='0,30,7.5,54.6,7.5,275.4,0,300'              , fill='#1F1F1F') # Left edge
+      # Tab (indented semi-circle at end)
+      svg('polygon', points='50,115,7.5,114.6,5.6,135.8,5.6,165,50,165'  , fill='#1C1C1C') # Top quadrant
+      svg('polygon', points='7.5,215.5,50,215.5,50,165,5.6,165,5.6,194.2', fill='#383838') # Bottom quadrant
+      svg('path', d='M5.6,135.8l0,58.3c14.7,-1.7,26.2,-14,26.2,-29.2C31.8,149.7,20.4,137.5,5.6,135.8z', fill='#262626') # Inner
+      svg('path', d='M7.5,54.6L7.5,114.5c23.8,4.5,41.9,25.3,41.9,50.4c0,25.1,-18,46,-41.9,50.5L7.5,215.5l50,0L57.5,54.6L7.5,54.6z', fill='#303030') # Outer mask
+      # Markings
+      svg('circle', cx=65, cy=234.7, r=20.6, fill='#212121') # Orientation dot
+      svg('text', component.get('label', 'IC'), x=65, y=165, fill='#e6e6e6', _class='label')
+
+      # Pins
+      for level in range(pins / 2):
+        # Top row
+        svg('rect', x=(100 * level + 35), y=0, width=30, height=43.4, fill='#8c8c8c')
+        if level == 0: # Leftmost column
+          points='85,43.4,85,32.6,65,23.4,35,23.4,35,43.4'
+        elif level == pins / 2 - 1: # Rightmost column
+          points='64,43.4,65,23.4,35,23.4,15,32.6,15,43.4'
+        else: # All the others
+          points='85,43.4,85,32.6,65,23.4,35,23.4,15,32.6,15,43.4'
+        svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c')
+        # Bottom row
+        svg('rect', x=(100 * level + 35), y=286.6, width=30, height=43.4, fill='#8c8c8c')
+        if level == 0: # Leftmost column
+          points='35,286.6,35,306.6,65,306.6,85,297.4,85,286.6'
+        elif level == pins / 2 - 1: # Rightmost column
+          points='15,286.6,15,297.4,35,306.6,65,306.6,65,286.6'
+        else: # All the others
+          points='15,286.6,15,297.4,35,306.6,65,306.6,85,297.4,85,286.6'
+        svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c')
+
+  return svg, warnings, errors
+
 def generate_schematic(component):
   svg = XMLBuilder()
   warnings, errors = validate(component)
