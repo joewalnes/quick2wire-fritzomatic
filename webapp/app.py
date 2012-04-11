@@ -3,7 +3,7 @@
 import json
 import os
 
-from fritzomatic.generic_ic import generate_schematic
+from fritzomatic.generic_ic import generate_schematic, generate_pcb
 from flask import send_from_directory, Flask, Response
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ def parse_component():
 
 @app.route('/')
 def homepage():
-  return '<img src="/schematic">'
+  return '<img src="/schematic"><img src="/pcb" style="background-color: #69947a">'
 
 @app.route('/favicon.ico')
 def favicon():
@@ -26,6 +26,12 @@ def favicon():
 def schematic():
   component = parse_component()
   result, warnings, errors = generate_schematic(component)
+  return Response(str(result), mimetype='image/svg+xml')
+
+@app.route('/pcb')
+def pcb():
+  component = parse_component()
+  result, warnings, errors = generate_pcb(component)
   return Response(str(result), mimetype='image/svg+xml')
 
 if __name__ == '__main__':

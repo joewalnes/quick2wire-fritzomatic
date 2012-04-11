@@ -1,7 +1,6 @@
 from fritzomatic.xmlbuilder import XMLBuilder
 
-def generate_schematic(component):
-  svg = XMLBuilder()
+def validate(component):
   warnings = []
   errors = []
 
@@ -12,6 +11,14 @@ def generate_schematic(component):
     errors.append('Expected at least 2 pins')
   if pins > 100:
     errors.append('Too many pins (max 100)') # Sanity check
+
+  return warnings, errors
+
+def generate_schematic(component):
+  svg = XMLBuilder()
+  warnings, errors = validate(component)
+
+  pins = component['pins']
 
   css = """
     text {
@@ -35,7 +42,7 @@ def generate_schematic(component):
     }
   """
 
-  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=166, height=302.70001, viewBox='0 0 1515 ' + str(300 * pins / 2 + 670)):
+  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 1515 ' + str(300 * pins / 2 + 670)):
     with svg('defs'):
       svg('style', css, type='text/css')
     with svg('g', id='schematic', transform='translate(0, 333)'):
@@ -63,3 +70,58 @@ def generate_schematic(component):
           warnings.append('Ignored connector "%s" because component only has %d pins.' % (connector_id, pins))
 
   return svg, warnings, errors
+
+def generate_pcb(component):
+  svg = XMLBuilder()
+  warnings, errors = validate(component)
+
+  pins = component['pins']
+
+  css = """
+    .copper-hole {
+      stroke: rgb(255, 191, 0);
+      stroke-width: 20px;
+      fill: none;
+    }
+    .silkscreen-line {
+      stroke: #ffffff;
+      stroke-width: 10px;
+    }
+  """
+
+  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 420 ' + str(50 * pins + 20)):
+    with svg('defs'):
+      svg('style', css, type='text/css')
+
+    # Top and bottom copper layers
+    for layer_id in ['copper0', 'copper1']:
+      with svg('g', id=layer_id):
+        for connector_id, connector in component.get('connectors', {}).items():
+          n = int(connector_id)
+          if n < 1:
+            warnings.append('Ignored connector "%s" - value should start at 1' % connector_id)
+          elif n <= pins / 2:
+            # Left
+            level = n
+            if n == 1:
+              # First pin has square outline to make it easy to identify
+              svg('rect', x=32.5, y=(100 * level - 67.5), width=55, height=55, _class='copper-hole')
+            svg('circle', cx=60, cy=(100 * level - 40), r=27.5, _class='copper-hole')
+          elif n <= pins:
+            # Right
+            level = pins + 1 - n
+            svg('circle', cx=360, cy=(100 * level - 40), r=27.5, _class='copper-hole')
+          else:
+            warnings.append('Ignored connector "%s" because component only has %d pins.' % (connector_id, pins))
+
+    # Silk screen layer
+    with svg('g', id='silkscreen'):
+      bottom_edge = pins * 50 + 10
+      svg('line', x1=10 , y1=10         , x2=160, y2=10         , _class='silkscreen-line') # Top edge (left segment)
+      svg('line', x1=260, y1=10         , x2=410, y2=10         , _class='silkscreen-line') # Top edge (right segment)
+      svg('line', x1=10 , y1=10         , x2=10 , y2=bottom_edge, _class='silkscreen-line') # Left edge
+      svg('line', x1=410, y1=bottom_edge, x2=410, y2=10         , _class='silkscreen-line') # Right edge
+      svg('line', x1=10 , y1=bottom_edge, x2=410, y2=bottom_edge, _class='silkscreen-line') # Bottom edge
+
+  return svg, warnings, errors
+
