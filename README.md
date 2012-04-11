@@ -35,6 +35,6 @@ To locally:
 
 To deploy live:
 
-   git remote add heroku git@heroku.com:high-winter-2211.git     # one time setup
-   git push heroku master
+   git remote add live git@heroku.com:fritzomatic.git     # one time setup
+   git push live master
    # Navigate to http://fritzomatic.quick2wire.com/
