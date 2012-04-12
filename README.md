@@ -30,9 +30,9 @@ Dependencies:
 
 To locally:
 
-   make run
-   # Navigate to http://localhost:5000
+    make run
+    # Navigate to http://localhost:5000
 
 To deploy live (to http://fritzomatic.quick2wire.com):
 
-   make live
+    make live
