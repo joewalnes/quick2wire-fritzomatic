@@ -33,6 +33,6 @@ To run locally:
     make run
     # Navigate to http://localhost:5000
 
-To deploy live (to http://fritzomatic.quick2wire.com):
+To deploy live, to http://fritzomatic.quick2wire.com :
 
     make live
