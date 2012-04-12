@@ -30,11 +30,9 @@ Dependencies:
 
 To locally:
 
-   foreman start        # foreman is part of the Heroku Toolbelt
+   make run
    # Navigate to http://localhost:5000
 
-To deploy live:
+To deploy live (to http://fritzomatic.quick2wire.com):
 
-   git remote add live git@heroku.com:fritzomatic.git     # one time setup
-   git push live master
-   # Navigate to http://fritzomatic.quick2wire.com/
+   make live
