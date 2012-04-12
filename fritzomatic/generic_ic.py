@@ -158,7 +158,7 @@ def generate_pcb(component):
 
   css = """
     .copper-hole {
-      stroke: rgb(255, 191, 0);
+      stroke: #F7BD13;
       stroke-width: 20px;
       fill: none;
     }
