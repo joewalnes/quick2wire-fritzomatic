@@ -28,7 +28,7 @@ Dependencies:
     flask               # pip install flask
     heroku toolbelt     # See https://toolbelt.heroku.com/
 
-To locally:
+To run locally:
 
     make run
     # Navigate to http://localhost:5000
