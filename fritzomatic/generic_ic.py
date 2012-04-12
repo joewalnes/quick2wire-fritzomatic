@@ -14,11 +14,26 @@ def validate(component):
 
   return warnings, errors
 
+def generate_icon(component):
+  pins = min(component['pins'], 6) # Show no more than 6 pins on icon
+  icon = component.get('icon', None)
+  if icon:
+    label1 = icon.get('label1', 'IC')
+    label2 = icon.get('label2', None)
+  else:
+    label1 = component.get('label', 'IC')
+    label2 = None
+  return generate_breadboard_component(component, '0.3in', pins, label1, label2)
+
 def generate_breadboard(component):
+  pins = component['pins']
+  label1 = component.get('label', 'IC')
+  label2 = None
+  return generate_breadboard_component(component, 300, pins, label1, label2)
+
+def generate_breadboard_component(component, size, pins, label1, label2):
   svg = XMLBuilder()
   warnings, errors = validate(component)
-
-  pins = component['pins']
 
   css = """
     rect, polygon, path, circle, text {
@@ -32,7 +47,7 @@ def generate_breadboard(component):
   """
 
   width = pins * 50
-  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 ' + str(width) + ' 330'):
+  with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=size, height=size, viewBox='0 0 ' + str(width) + ' 330'):
     with svg('defs'):
       svg('style', css, type='text/css')
     with svg('g', id='breadboard'):
@@ -49,7 +64,11 @@ def generate_breadboard(component):
       svg('path', d='M7.5,54.6L7.5,114.5c23.8,4.5,41.9,25.3,41.9,50.4c0,25.1,-18,46,-41.9,50.5L7.5,215.5l50,0L57.5,54.6L7.5,54.6z', fill='#303030') # Outer mask
       # Markings
       svg('circle', cx=65, cy=234.7, r=20.6, fill='#212121') # Orientation dot
-      svg('text', component.get('label', 'IC'), x=65, y=165, fill='#e6e6e6', _class='label')
+      if label2:
+        svg('text', label1, x=65, y=142.5, fill='#e6e6e6', _class='label')
+        svg('text', label2, x=65, y=226.5, fill='#e6e6e6', _class='label')
+      else:
+        svg('text', label1, x=65, y=165, fill='#e6e6e6', _class='label')
 
       # Pins
       for level in range(pins / 2):

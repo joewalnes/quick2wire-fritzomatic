@@ -3,7 +3,7 @@
 import json
 import os
 
-from fritzomatic.generic_ic import generate_breadboard, generate_schematic, generate_pcb
+from fritzomatic.generic_ic import generate_icon, generate_breadboard, generate_schematic, generate_pcb
 from flask import send_from_directory, Flask, Response
 
 app = Flask(__name__)
@@ -17,8 +17,9 @@ def parse_component():
 def homepage():
   return """
     <style>
-      img { width: 300px; height: 300px; border: 1px solid #aaaaaa;}
+      img { border: 1px solid #aaaaaa; margin: 2px;}
     </style>
+    <img src="/icon"       style="background-color: #cccccc;"><br>
     <img src="/breadboard" style="background-color: #cccccc;">
     <img src="/schematic"  style="background-color: #ffffff;">
     <img src="/pcb"        style="background-color: #69947a;">
@@ -28,6 +29,12 @@ def homepage():
 def favicon():
    return send_from_directory(os.path.join(app.root_path, 'static'),
        'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@app.route('/icon')
+def icon():
+  component = parse_component()
+  result, warnings, errors = generate_icon(component)
+  return Response(str(result), mimetype='image/svg+xml')
 
 @app.route('/breadboard')
 def breadboard():

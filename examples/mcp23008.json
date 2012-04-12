@@ -1,5 +1,9 @@
 {
   "label": "MCP23008",
+  "icon": {
+    "label1": "MCP2",
+    "label2": "3008"
+  },
   "type": "generic-IC",
   "pins": 18,
   "connectors": {
