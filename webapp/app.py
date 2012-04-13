@@ -5,7 +5,7 @@ import os
 import urllib
 
 from fritzomatic.generic_ic import generate_icon, generate_breadboard, generate_schematic, generate_pcb
-from flask import send_from_directory, Flask, Response
+from flask import send_from_directory, url_for, render_template, Flask, Response
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ def parse_component(data):
 def homepage():
   with open('examples/mcp23008.json') as f:
     component = json.load(f)
-  url = 'component/%s/summary' % urllib.quote(json.dumps(component))
+  url = url_for('summary', data=urllib.quote(json.dumps(component)))
   return """
     <a href="%s">Example</a>
   """ % url
@@ -26,19 +26,10 @@ def favicon():
    return send_from_directory(os.path.join(app.root_path, 'static'),
        'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-@app.route('/component/<data>/summary')
+@app.route('/component/<data>/')
 def summary(data):
   component = parse_component(data)
-  return """
-    <style>
-      img { border: 1px solid #aaaaaa; margin: 2px;}
-    </style>
-    <a href="icon"      ><img src="icon"       style="background-color: #cccccc;"></a><br>
-    <a href="breadboard"><img src="breadboard" style="background-color: #cccccc;"></a>
-    <a href="schematic" ><img src="schematic"  style="background-color: #ffffff;"></a>
-    <a href="pcb"       ><img src="pcb"        style="background-color: #69947a;"></a>
-    <p><a href="json">Download JSON</a></p>
-  """
+  return render_template('summary.html', component=component)
 
 @app.route('/component/<data>/json')
 def dump_json(data):
