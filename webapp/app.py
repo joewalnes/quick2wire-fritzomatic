@@ -4,19 +4,21 @@ import json
 import os
 import urllib
 
-from fritzomatic.generic_ic import generate_icon, generate_breadboard, generate_schematic, generate_pcb
+from fritzomatic.components.generic_dip import GenericDIP
 from flask import send_from_directory, url_for, render_template, Flask, Response
 
 app = Flask(__name__)
 
 def parse_component(data):
-  return json.loads(urllib.unquote(data))
+  # TODO: Support multiple components.
+  # TODO: Validate
+  return GenericDIP(json.loads(urllib.unquote(data)))
 
 @app.route('/')
 def homepage():
   with open('examples/mcp23008.json') as f:
-    component = json.load(f)
-  url = url_for('summary', data=urllib.quote(json.dumps(component)))
+    data = json.load(f)
+  url = url_for('summary', data=urllib.quote(json.dumps(data)))
   return """
     <a href="%s">Example</a>
   """ % url
@@ -34,32 +36,29 @@ def summary(data):
 @app.route('/component/<data>/json')
 def dump_json(data):
   component = parse_component(data)
-  return Response(json.dumps(component, indent=2), mimetype='text/plain')
+  return Response(json.dumps(component.data, indent=2), mimetype='text/plain')
 
 @app.route('/component/<data>/icon')
 def icon(data):
   component = parse_component(data)
-  result, warnings, errors = generate_icon(component)
-  return Response(str(result), mimetype='image/svg+xml')
+  return Response(str(component.icon()), mimetype='image/svg+xml')
 
 @app.route('/component/<data>/breadboard')
 def breadboard(data):
   component = parse_component(data)
-  result, warnings, errors = generate_breadboard(component)
-  return Response(str(result), mimetype='image/svg+xml')
+  return Response(str(component.breadboard()), mimetype='image/svg+xml')
 
 @app.route('/component/<data>/schematic')
 def schematic(data):
   component = parse_component(data)
-  result, warnings, errors = generate_schematic(component)
-  return Response(str(result), mimetype='image/svg+xml')
+  return Response(str(component.schematic()), mimetype='image/svg+xml')
 
 @app.route('/component/<data>/pcb')
 def pcb(data):
   component = parse_component(data)
-  result, warnings, errors = generate_pcb(component)
-  return Response(str(result), mimetype='image/svg+xml')
+  return Response(str(component.pcb()), mimetype='image/svg+xml')
 
+# Go!
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))
   debug = bool(int(os.environ.get('DEBUG', '0')))

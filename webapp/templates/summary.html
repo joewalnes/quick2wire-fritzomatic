@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>Fritzomatic: {{ component['label'] }}</title>
+<title>Fritzomatic: {{ component.label() }}</title>
 <link rel="stylesheet" href="/static/lib/bootstrap.min.css">
 <style>
   img { border: 1px solid #aaaaaa; margin: 2px;}
@@ -8,25 +8,25 @@
 <div class="container">
 
   <h1>
-    <img src="icon" style="background-color: #cccccc">
-    {{ component['label' ] }}
+    <a href="icon"><img src="icon" style="background-color: #cccccc"></a>
+    {{ component.label() }}
   </h1>
 
   <div class="row">
 
     <div class="span4">
       <h2>Breadboard</h2>
-      <img src="breadboard" style="background-color: #cccccc;">
+      <a href="breadboard"><img src="breadboard" style="background-color: #cccccc;"></a>
     </div>
 
     <div class="span4">
       <h2>Schematic</h2>
-      <img src="schematic" style="background-color: #ffffff;">
+      <a href="schematic"><img src="schematic" style="background-color: #ffffff;"></a>
     </div>
 
     <div class="span4">
       <h2>PCB</h2>
-      <img src="pcb" style="background-color: #69947a;">
+      <a href="pcb"><img src="pcb" style="background-color: #69947a;"></a>
     </div>
 
   </div>
