@@ -1,6 +1,6 @@
 # Run locally
 run:
-	PYTHONPATH=. foreman start
+	PYTHONPATH=. DEBUG=1 foreman start
 .PHONY: run
 
 # Push site live. You need to have access to the Heroku account.

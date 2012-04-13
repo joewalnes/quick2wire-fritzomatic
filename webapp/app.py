@@ -37,7 +37,7 @@ def summary(data):
     <a href="breadboard"><img src="breadboard" style="background-color: #cccccc;"></a>
     <a href="schematic" ><img src="schematic"  style="background-color: #ffffff;"></a>
     <a href="pcb"       ><img src="pcb"        style="background-color: #69947a;"></a>
-    <p><a href="json">JSON</a></p>
+    <p><a href="json">Download JSON</a></p>
   """
 
 @app.route('/component/<data>/json')
@@ -71,4 +71,5 @@ def pcb(data):
 
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))
-  app.run(host='0.0.0.0', port=port)
+  debug = bool(int(os.environ.get('DEBUG', '0')))
+  app.run(host='0.0.0.0', port=port, debug=debug)
