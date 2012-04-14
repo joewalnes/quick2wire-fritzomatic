@@ -62,7 +62,7 @@ class GenericDIP(Component):
     svg = XMLBuilder()
     pins = self.data['pins']
 
-    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 1515 ' + str(300 * pins / 2 + 670)):
+    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 1830 ' + str(300 * pins / 2 + 670)):
       with svg('defs'):
         svg('style', css, type='text/css')
       with svg('g', id='schematic', transform='translate(0, 333)'):
