@@ -6,17 +6,27 @@
 <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
 
 <style>
-  .navbar .brand {
+  body {
+    background-color: #f5f5f5;
+  }
+  h2, .navbar .brand {
     font-family: Audiowide, sans-serif;
     font-weight: normal;
+  }
+  h1, h2 {
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, .5), 2px 1px 5px rgba(0, 0, 0, 0.6);
+    text-transform: lowercase;
+    margin-top: 20px;
+    margin-bottom: 4px;
+  }
+  .navbar .brand {
     font-size: 32px;
-    vertical-align: middle;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, .5), 4px 0px 5px rgba(0, 0, 0, 1);
   }
   .navbar .brand span {
     position: relative;
     top: 3px;
     left: -4px;
-    text-shadow: 1px 1px 0 rgba(255, 255, 255, .5), 4px 0px 5px rgba(0, 0, 0, 1);
   }
   .navbar-inner {
     background-color: #660000;
@@ -41,6 +51,12 @@
   img {
     border: 1px solid #aaaaaa;
     margin: 2px;
+  }
+  textarea {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: bold;
   }
 </style>
 
@@ -86,15 +102,18 @@
       <a href="pcb"><img src="pcb" style="background-color: #69947a;"></a>
     </div>
 
-  </div>
+    <div class="span12">
+      <a href="json" class="btn pull-right">Download JSON</a>
+    </div>
 
-  <div>
-    <a href="json">JSON</a>
   </div>
 
   <form action="{{ url_for('update') }}" method="post">
-    <textarea name="data" class="span12" style="height: 500px">{{ component.json() }}</textarea><br>
-    <input type="submit" class="btn" value="Update">
+    <h2>Edit component</h2>
+    <textarea name="data" class="span12 pre" style="height: 500px">{{ component.json() }}</textarea>
+    <div>
+      <input type="submit" class="btn btn-primary" value="Update">
+    </div>
   </form>
 
   <footer class="footer">
