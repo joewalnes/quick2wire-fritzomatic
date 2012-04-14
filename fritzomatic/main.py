@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import collections
 import json
 import sys
 
@@ -13,7 +14,7 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   with open(args.input) as f:
-    component = json.load(f)
+    component = json.load(f, object_pairs_hook=collections.OrderedDict)
     svg, warnings, errors = generate_schematic(component)
     for errors in errors:
       print >> sys.stderr, 'WARNING:', warning
