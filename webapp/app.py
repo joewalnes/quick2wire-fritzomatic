@@ -19,10 +19,7 @@ def parse_component(data):
 def homepage():
   with open('examples/mcp23008.json') as f:
     data = json.load(f, object_pairs_hook=collections.OrderedDict)
-  url = url_for('summary', data=to_urltoken(data))
-  return """
-    <a href="%s">Example</a>
-  """ % url
+  return redirect(url_for('summary', data=to_urltoken(data)))
 
 @app.route('/favicon.ico')
 def favicon():
