@@ -5,6 +5,7 @@ import json
 import os
 
 from fritzomatic.components.generic_dip import GenericDIP
+from fritzomatic.format import from_json, from_urltoken, to_urltoken
 from flask import send_from_directory, url_for, redirect, render_template, request, Flask, Response
 
 app = Flask(__name__)
@@ -12,13 +13,13 @@ app = Flask(__name__)
 def parse_component(data):
   # TODO: Support multiple components.
   # TODO: Validate
-  return GenericDIP(json.loads(data, object_pairs_hook=collections.OrderedDict))
+  return GenericDIP(from_urltoken(data))
 
 @app.route('/')
 def homepage():
   with open('examples/mcp23008.json') as f:
     data = json.load(f, object_pairs_hook=collections.OrderedDict)
-  url = url_for('summary', data=json.dumps(data))
+  url = url_for('summary', data=to_urltoken(data))
   return """
     <a href="%s">Example</a>
   """ % url
@@ -32,8 +33,7 @@ def favicon():
 def update():
   data = request.form.get('data')
   if data:
-    shortened = json.dumps(json.loads(data, object_pairs_hook=collections.OrderedDict))
-    return redirect(url_for('summary', data=shortened))
+    return redirect(url_for('summary', data=to_urltoken(from_json(data))))
   else:
     return 'No data'
 
