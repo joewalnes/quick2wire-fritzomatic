@@ -1,12 +1,10 @@
 from fritzomatic.xmlbuilder import XMLBuilder
+from fritzomatic.component import Component
 
-class GenericDIP(object):
+class GenericDIP(Component):
 
   def __init__(self, data):
     self.data = data
-
-  def label(self):
-    return self.data['label']
 
   def validate(self):
     warnings = []

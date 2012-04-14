@@ -7,6 +7,10 @@
 
 <div class="container">
 
+  <div>
+    <a href="{{ url_for('homepage') }}">Home</a>
+  </div>
+
   <h1>
     <a href="icon"><img src="icon" style="background-color: #cccccc"></a>
     {{ component.label() }}
@@ -35,8 +39,10 @@
     <a href="json">JSON</a>
   </div>
 
-  <div>
-    <a href="/">Home</a>
-  </div>
+  <form action="{{ url_for('update') }}" method="post">
+    <textarea name="data" class="span12" style="height: 500px">{{ component.json() }}</textarea><br>
+    <input type="submit" class="btn" value="Update">
+  </form>
+
 
 </div>

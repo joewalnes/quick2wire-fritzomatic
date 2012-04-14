@@ -5,7 +5,7 @@ import os
 import urllib
 
 from fritzomatic.components.generic_dip import GenericDIP
-from flask import send_from_directory, url_for, render_template, Flask, Response
+from flask import send_from_directory, url_for, redirect, render_template, request, Flask, Response
 
 app = Flask(__name__)
 
@@ -25,8 +25,17 @@ def homepage():
 
 @app.route('/favicon.ico')
 def favicon():
-   return send_from_directory(os.path.join(app.root_path, 'static'),
-       'favicon.ico', mimetype='image/vnd.microsoft.icon')
+  return send_from_directory(os.path.join(app.root_path, 'static'),
+      'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@app.route('/update', methods=['POST'])
+def update():
+  data = request.form.get('data')
+  if data:
+    shortened = urllib.quote(json.dumps(json.loads(data)))
+    return redirect(url_for('summary', data=shortened))
+  else:
+    return 'No data'
 
 @app.route('/component/<data>/')
 def summary(data):
@@ -36,7 +45,7 @@ def summary(data):
 @app.route('/component/<data>/json')
 def dump_json(data):
   component = parse_component(data)
-  return Response(json.dumps(component.data, indent=2), mimetype='text/plain')
+  return Response(str(component.json()), mimetype='text/plain')
 
 @app.route('/component/<data>/icon')
 def icon(data):
