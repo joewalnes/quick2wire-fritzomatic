@@ -155,8 +155,8 @@ class GenericDIP(Component):
         svg('rect', x=0, y=30   , width=width, height=270,  fill='#303030') # Main component
         svg('rect', x=0, y=30   , width=width, height=24.6, fill='#3D3D3D') # Top edge
         svg('rect', x=0, y=275.4, width=width, height=24.6, fill='#000000') # Bottom edge
-        svg('polygon', points='900,30,892.5,54.6,892.5,275.4,900,300'      , fill='#141414') # Right edge
-        svg('polygon', points='0,30,7.5,54.6,7.5,275.4,0,300'              , fill='#1F1F1F') # Left edge
+        svg('polygon', points='0,30,-7.5,54.6,-7.5,275.4,0,300', fill='#141414', transform='translate(' + str(width) + ', 0)') # Right edge
+        svg('polygon', points='0,30,7.5,54.6,7.5,275.4,0,300'  , fill='#1F1F1F') # Left edge
         # Tab (indented semi-circle at end)
         svg('polygon', points='50,115,7.5,114.6,5.6,135.8,5.6,165,50,165'  , fill='#1C1C1C') # Top quadrant
         svg('polygon', points='7.5,215.5,50,215.5,50,165,5.6,165,5.6,194.2', fill='#383838') # Bottom quadrant
