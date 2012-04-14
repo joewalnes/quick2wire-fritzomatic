@@ -1,83 +1,92 @@
 {
+  "type": "generic-dip",
+  "name": "Microchip MCP23008 8-bit I/O expander",
   "label": "MCP23008",
+  "description": "Provides 8-bit, general purpose, parallel I/O expansion for I2C bus.\n\nDatasheet: http://ww1.microchip.com/downloads/en/devicedoc/21919e.pdf",
+  "tags": [
+    "DIP",
+    "MCP23008",
+    "IO",
+    "Expander",
+    "I2C"
+  ],
   "icon": {
     "label1": "MCP2",
     "label2": "3008"
   },
-  "type": "generic-IC",
   "pins": 18,
   "connectors": {
     "1": {
       "label": "SCL",
-      "description": ""
+      "description": "Serial clock input."
     },
     "2": {
       "label": "SDA",
-      "description": ""
+      "description": "Serial data I/O."
     },
     "3": {
       "label": "A2",
-      "description": ""
+      "description": "Hardware address input. Must be biased externally."
     },
     "4": {
       "label": "A1",
-      "description": ""
+      "description": "Hardware address input. Must be biased externally."
     },
     "5": {
       "label": "A0",
-      "description": ""
+      "description": "Hardware address input. Must be biased externally."
     },
     "6": {
       "label": "Reset",
-      "description": ""
+      "description": "External reset input. Must be biased externally."
     },
     "7": {
       "label": "NC",
-      "description": ""
+      "description": "No connect."
     },
     "8": {
       "label": "INT",
-      "description": ""
+      "description": "Interrupt output. Can be configured for active-high, active-low or open-drain."
     },
     "9": {
       "label": "VSS",
-      "description": ""
+      "description": "Ground."
     },
     "10": {
       "label": "GP0",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "11": {
       "label": "GP1",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "12": {
       "label": "GP2",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "13": {
       "label": "GP3",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "14": {
       "label": "GP4",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "15": {
       "label": "GP5",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "16": {
       "label": "GP6",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "17": {
       "label": "GP7",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     },
     "18": {
       "label": "VDD",
-      "description": ""
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
     }
   }
 }
