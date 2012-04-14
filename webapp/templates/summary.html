@@ -1,8 +1,47 @@
 <!DOCTYPE html>
 <title>Fritzomatic: {{ component.label() }}</title>
 <link rel="stylesheet" href="/static/lib/bootstrap.min.css">
+
+<!-- Google WebFonts: http://www.google.com/webfonts#UsePlace:use/Collection:Audiowide -->
+<link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+
 <style>
-  img { border: 1px solid #aaaaaa; margin: 2px;}
+  .navbar .brand {
+    font-family: Audiowide, sans-serif;
+    font-weight: normal;
+    font-size: 32px;
+    vertical-align: middle;
+  }
+  .navbar .brand span {
+    position: relative;
+    top: 3px;
+    left: -4px;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, .5), 4px 0px 5px rgba(0, 0, 0, 1);
+  }
+  .navbar-inner {
+    background-color: #660000;
+    background-image: -moz-linear-gradient(top, #550000, #880000);
+    background-image: -ms-linear-gradient(top, #550000, #880000);
+    background-image: -webkit-linear-gradient(top, #550000, #880000);
+    background-image: -o-linear-gradient(top, #550000, #880000);
+    background-image: linear-gradient(top, #550000, #880000);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#550000), to(#880000));
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#550000', endColorstr='#880000', GradientType=0);
+  }
+  .main {
+    padding-top: 60px;
+  }
+  .footer {
+    margin-top: 50px;
+    padding-top: 10px;
+    border-top: 1px solid #dddddd;
+    color: #555555;
+  }
+  img {
+    border: 1px solid #aaaaaa;
+    margin: 2px;
+  }
 </style>
 
 <!-- Google Analytics -->
@@ -17,12 +56,18 @@
   })();
 </script>
 
-<div class="container">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <span class="brand">
+        <a href="icon"><img src="icon" style="background-color: #cccccc"></a>
+        <span>{{ component.label() }}</span>
+      </span>
+    </div>
+  </div>
+</div>
 
-  <h1>
-    <a href="icon"><img src="icon" style="background-color: #cccccc"></a>
-    {{ component.label() }}
-  </h1>
+<div class="main container">
 
   <div class="row">
 
@@ -51,6 +96,19 @@
     <textarea name="data" class="span12" style="height: 500px">{{ component.json() }}</textarea><br>
     <input type="submit" class="btn" value="Update">
   </form>
+
+  <footer class="footer">
+    <p class="pull-right"><a href="#">Top</a></p>
+    <p>
+      This is <strong>The Quick2Wire Fritzomatic</strong>
+      - a tool to generate and share components for the awesome <a href="http://fritzing.org/" target="_blank">Fritzing.org</a>.
+    </p>
+    <p>
+      Built by <a href="http://twitter.com/joewalnes" target="_blank">@joewalnes</a>
+      for <a href="http://quick2wire.com/" target="_blank">quick2wire.com</a>.
+      Fork me on <a href="http://github.com/quick2wire/quick2wire-fritzomatic" target="_blank">GitHub</a>.
+    </p>
+  </footer>
 
 </div>
 
