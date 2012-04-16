@@ -44,6 +44,11 @@ def dump_json(data):
   component = parse_component(data)
   return Response(str(component.json()), mimetype='text/plain')
 
+@app.route('/component/<data>/partdata')
+def partdata(data):
+  component = parse_component(data)
+  return Response(str(component.metadata()), mimetype='text/xml')
+
 @app.route('/component/<data>/icon')
 def icon(data):
   component = parse_component(data)

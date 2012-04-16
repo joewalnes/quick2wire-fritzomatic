@@ -20,6 +20,75 @@ class GenericDIP(Component):
 
     return warnings, errors
 
+  def metadata(self):
+    meta = XMLBuilder()
+
+    with meta('module',
+        fritzingVersion='0.7.1b.03.10.5908',
+        moduleId=self.module_id()):
+      # Core info
+      meta('version', '4') # TODO
+      meta('author', 'Fritzomatic') # TODO
+      meta('title', self.title())
+      meta('label', self.label())
+      meta('date', '2012-04-16') # TODO
+
+      # Tags
+      with meta('tags'):
+        for tag in self.tags():
+          meta('tag', tag)
+
+      # Additional properties
+      properties = {
+          'package'            : 'DIP (Dual Inline) [THT]',
+          'family'             : self.label(), # TODO
+          'editable pin labels': 'false',
+          'chip label'         : self.label(),
+          'part number'        : self.title(),
+          'pins'               : self.data['pins'],
+          'spacing'            : '300mil',
+      }
+      with meta('properties'):
+        for k, v in properties.items():
+          meta('property', v, _name=k)
+
+      meta('description', self.description())
+
+      # Other views
+      with meta('views'):
+        with meta('iconView'):
+          with meta('layers', image=self.icon_filename()):
+            meta('layer', layerId='icon')
+        with meta('breadboardView'):
+          with meta('layers', image=self.breadboard_filename()):
+            meta('layer', layerId='breadboard')
+        with meta('schematicView'):
+          with meta('layers', image=self.schematic_filename()):
+            meta('layer', layerId='schematic')
+        with meta('pcbView'):
+          with meta('layers', image=self.pcb_filename()):
+            meta('layer', layerId='copper0')
+            meta('layer', layerId='silkscreen')
+            meta('layer', layerId='copper1')
+
+      # Connector meta-data
+      # TODO: Add connectorXXpin to breadboard, schematic, pcb(copper0,copper1)
+      # TODO: Add connectorXXterminal to breadboard, schematic
+      with meta('connectors'):
+        for connector_id, connector in self.connectors().items():
+          with meta('connector', id='connector%s' % connector_id, type='male', _name=connector.get('label', connector_id)):
+            meta('description', connector.get('description', ''))
+            with meta('views'):
+              with meta('breadboardView'):
+                meta('p', layer='breadboard', svgId='connector%spin' % connector_id, terminalId='connector%sterminal' % connector_id)
+              with meta('schematicView'):
+                meta('p', layer='schematic', svgId='connector%spin' % connector_id, terminalId='connector%sterminal' % connector_id)
+              with meta('breadboardView'):
+                meta('p', layer='copper0', svgId='connector%spin' % connector_id)
+                meta('p', layer='copper1', svgId='connector%spin' % connector_id)
+
+    return meta
+
   def icon(self):
     pins = min(self.data['pins'], 6) # Show no more than 6 pins on icon
     icon = self.data.get('icon', None)
@@ -29,13 +98,13 @@ class GenericDIP(Component):
     else:
       label1 = self.data.get('label', 'IC')
       label2 = None
-    return self._breadboard_component('0.3in', pins, label1, label2)
+    return self._breadboard_component('icon', '0.3in', pins, label1, label2)
 
   def breadboard(self):
     pins = self.data['pins']
     label1 = self.data.get('label', 'IC')
     label2 = None
-    return self._breadboard_component(300, pins, label1, label2)
+    return self._breadboard_component('breadboard', '300', pins, label1, label2)
 
   def schematic(self):
     css = """
@@ -134,7 +203,7 @@ class GenericDIP(Component):
 
     return svg
 
-  def _breadboard_component(self, size, pins, label1, label2):
+  def _breadboard_component(self, layer_id, size, pins, label1, label2):
     css = """
       rect, polygon, path, circle, text {
         stroke-width: 0;
@@ -150,7 +219,7 @@ class GenericDIP(Component):
     with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=size, height=size, viewBox='0 0 ' + str(width) + ' 330'):
       with svg('defs'):
         svg('style', css, type='text/css')
-      with svg('g', id='breadboard'):
+      with svg('g', id=layer_id):
         # Main case
         svg('rect', x=0, y=30   , width=width, height=270,  fill='#303030') # Main component
         svg('rect', x=0, y=30   , width=width, height=24.6, fill='#3D3D3D') # Top edge
