@@ -1,6 +1,6 @@
 {
   "type": "generic-dip",
-  "name": "Microchip MCP23008 8-bit I/O expander",
+  "title": "Microchip MCP23008 8-bit I/O expander",
   "label": "MCP23008",
   "description": "Provides 8-bit, general purpose, parallel I/O expansion for I2C bus.\n\nDatasheet: http://ww1.microchip.com/downloads/en/devicedoc/21919e.pdf",
   "tags": [

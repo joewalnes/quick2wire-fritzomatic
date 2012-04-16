@@ -2,8 +2,8 @@ from fritzomatic.format import to_json, to_urltoken
 
 class Component(object):
 
-  def name(self):
-    return self.data.get('name', '')
+  def title(self):
+    return self.data.get('title', '')
 
   def label(self):
     return self.data.get('label', '')
