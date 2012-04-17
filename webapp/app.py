@@ -74,7 +74,7 @@ def pcb(data):
   component = parse_component(data)
   response = make_response(str(component.fzpz()))
   response.mimetype='application/zip'
-  response.headers['Content-Disposition'] = 'attachment; filename="%s"' % component.fzpz_filename()
+  response.headers['Content-Disposition'] = 'attachment; filename="%s.fzpz"' % component.module_id()
   return response
 
 # Go!

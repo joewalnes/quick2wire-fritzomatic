@@ -57,16 +57,16 @@ class GenericDIP(Component):
       # Other views
       with meta('views'):
         with meta('iconView'):
-          with meta('layers', image=self.icon_filename()):
+          with meta('layers', image='icon/%s.svg' % self.module_id()):
             meta('layer', layerId='icon')
         with meta('breadboardView'):
-          with meta('layers', image=self.breadboard_filename()):
+          with meta('layers', image='breadboard/%s.svg' % self.module_id()):
             meta('layer', layerId='breadboard')
         with meta('schematicView'):
-          with meta('layers', image=self.schematic_filename()):
+          with meta('layers', image='schematic/%s.svg' % self.module_id()):
             meta('layer', layerId='schematic')
         with meta('pcbView'):
-          with meta('layers', image=self.pcb_filename()):
+          with meta('layers', image='pcb/%s.svg' % self.module_id()):
             meta('layer', layerId='copper0')
             meta('layer', layerId='silkscreen')
             meta('layer', layerId='copper1')
