@@ -6,7 +6,7 @@ import os
 
 from fritzomatic.components.generic_dip import GenericDIP
 from fritzomatic.format import from_json, from_urltoken, to_urltoken
-from flask import send_from_directory, url_for, redirect, render_template, request, Flask, Response
+from flask import make_response, send_from_directory, url_for, redirect, render_template, request, Flask, Response
 
 app = Flask(__name__)
 
@@ -68,6 +68,14 @@ def schematic(data):
 def pcb(data):
   component = parse_component(data)
   return Response(str(component.pcb()), mimetype='image/svg+xml')
+
+@app.route('/component/<data>/fzpz')
+def pcb(data):
+  component = parse_component(data)
+  response = make_response(str(component.fzpz()))
+  response.mimetype='application/zip'
+  response.headers['Content-Disposition'] = 'attachment; filename="%s"' % component.fzpz_filename()
+  return response
 
 # Go!
 if __name__ == '__main__':

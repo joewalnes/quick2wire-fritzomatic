@@ -1,4 +1,6 @@
 from fritzomatic.format import to_json, to_urltoken
+from StringIO import StringIO
+from zipfile import ZipFile, ZIP_DEFLATED
 
 class Component(object):
 
@@ -27,13 +29,33 @@ class Component(object):
     return 'fedcf3d723271139dab3cc83d369dc6d' # TODO
 
   def icon_filename(self):
-    return '%s_icon.svg' % self.module_id()
+    return 'svg.icon.%s.svg' % self.module_id()
 
   def breadboard_filename(self):
-    return '%s_breadboard.svg' % self.module_id()
+    return 'svg.breadboard.%s.svg' % self.module_id()
 
   def schematic_filename(self):
-    return '%s_schematic.svg' % self.module_id()
+    return 'svg.schematic.%s.svg' % self.module_id()
 
   def pcb_filename(self):
-    return '%s_pcb.svg' % self.module_id()
+    return 'svg.pcb.%s.svg' % self.module_id()
+
+  def metadata_filename(self):
+    return 'part.%s.fzp' % self.module_id()
+
+  def fzpz_filename(self):
+    return '%s.fzpz' % self.module_id()
+
+  def fzpz(self):
+    """Convert component to complete Fritzing .fzpz archive,
+    which is basically a zip file containing the metadata
+    and SVGs. Returns string of bytes"""
+    data = StringIO()
+    with ZipFile(data, compression=ZIP_DEFLATED, mode='w') as zf:
+      zf.writestr(self.metadata_filename()  , str(self.metadata()))
+      zf.writestr(self.icon_filename()      , str(self.icon()))
+      zf.writestr(self.breadboard_filename(), str(self.breadboard()))
+      zf.writestr(self.schematic_filename() , str(self.schematic()))
+      zf.writestr(self.pcb_filename()       , str(self.pcb()))
+    data.seek(0)
+    return data.getvalue()
