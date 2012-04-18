@@ -75,7 +75,7 @@ def module_id(data):
   return Response(str(component.module_id()), mimetype='text/plain')
 
 @app.route('/component/<data>/fzpz')
-def pcb(data):
+def fzpz(data):
   component = parse_component(data)
   response = make_response(str(component.fzpz()))
   response.mimetype='application/zip'
