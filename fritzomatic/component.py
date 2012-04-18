@@ -1,4 +1,5 @@
 from fritzomatic.format import to_json, to_urltoken
+from md5 import md5
 from StringIO import StringIO
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -26,7 +27,7 @@ class Component(object):
     return to_urltoken(self.data)
 
   def module_id(self):
-    return 'fedcf3d723271139dab3cc83d369dc6d' # TODO
+    return md5(self.urltoken()).hexdigest()
 
   def fzpz(self):
     """Convert component to complete Fritzing .fzpz archive,

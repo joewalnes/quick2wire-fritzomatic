@@ -69,6 +69,11 @@ def pcb(data):
   component = parse_component(data)
   return Response(str(component.pcb()), mimetype='image/svg+xml')
 
+@app.route('/component/<data>/id')
+def module_id(data):
+  component = parse_component(data)
+  return Response(str(component.module_id()), mimetype='text/plain')
+
 @app.route('/component/<data>/fzpz')
 def pcb(data):
   component = parse_component(data)
