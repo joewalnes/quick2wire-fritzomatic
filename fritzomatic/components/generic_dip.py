@@ -83,7 +83,7 @@ class GenericDIP(Component):
                 meta('p', layer='breadboard', svgId='connector%spin' % connector_id, terminalId='connector%sterminal' % connector_id)
               with meta('schematicView'):
                 meta('p', layer='schematic', svgId='connector%spin' % connector_id, terminalId='connector%sterminal' % connector_id)
-              with meta('breadboardView'):
+              with meta('pcbView'):
                 meta('p', layer='copper0', svgId='connector%spin' % connector_id)
                 meta('p', layer='copper1', svgId='connector%spin' % connector_id)
 

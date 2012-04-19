@@ -45,6 +45,6 @@ class Component(object):
       zf.writestr('svg.icon.%s.svg'       % self.module_id(), str(self.icon()))
       zf.writestr('svg.breadboard.%s.svg' % self.module_id(), str(self.breadboard()))
       zf.writestr('svg.schematic.%s.svg'  % self.module_id(), str(self.schematic()))
-      zf.writestr('svg.pch.%s.svg'        % self.module_id(), str(self.pcb()))
+      zf.writestr('svg.pcb.%s.svg'        % self.module_id(), str(self.pcb()))
     data.seek(0)
     return data.getvalue()
