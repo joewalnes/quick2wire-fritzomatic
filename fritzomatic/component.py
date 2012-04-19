@@ -1,7 +1,10 @@
+from datetime import datetime
 from fritzomatic.format import to_json, to_urltoken
 from md5 import md5
 from StringIO import StringIO
 from zipfile import ZipFile, ZIP_DEFLATED
+
+start_time = str(datetime.now())
 
 class Component(object):
 
@@ -27,7 +30,10 @@ class Component(object):
     return to_urltoken(self.data)
 
   def module_id(self):
-    return md5(self.urltoken()).hexdigest()
+    # The module ID is a unique has of the component definition
+    # and the start time of this app. This ensures that between
+    # restarts we get fresh hashes.
+    return md5(start_time + self.urltoken()).hexdigest()
 
   def fzpz(self):
     """Convert component to complete Fritzing .fzpz archive,
