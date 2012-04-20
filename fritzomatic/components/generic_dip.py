@@ -109,7 +109,7 @@ class GenericDIP(Component):
   def schematic(self):
     css = """
       text {
-        font-family: DroidSans;
+        font-family: DroidSans, droid-sans, sans-serif;
       }
       rect.outer-package, line.connector {
         fill: none;
@@ -209,7 +209,7 @@ class GenericDIP(Component):
         stroke-width: 0;
       }
       .label {
-        font-family: OCRA;
+        font-family: OCRA, ocr-a-std, sans-serif;
         font-size: 80px;
         text-anchor: start;
       }
