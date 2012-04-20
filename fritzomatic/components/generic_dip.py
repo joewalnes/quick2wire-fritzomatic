@@ -1,3 +1,5 @@
+import math
+
 from fritzomatic.xmlbuilder import XMLBuilder
 from fritzomatic.component import Component
 
@@ -72,8 +74,6 @@ class GenericDIP(Component):
             meta('layer', layerId='copper1')
 
       # Connector meta-data
-      # TODO: Add connectorXXpin to breadboard, schematic, pcb(copper0,copper1)
-      # TODO: Add connectorXXterminal to breadboard, schematic
       with meta('connectors'):
         for connector_id, connector in self.connectors().items():
           with meta('connector', id='connector%s' % connector_id, type='male', _name=connector.get('label', connector_id)):
@@ -118,6 +118,10 @@ class GenericDIP(Component):
         stroke-linecap: round;
         stroke-linejoin: round;
       }
+      rect.connector {
+        fill: none;
+        stroke-width: 0;
+      }
       text.label {
         font-size: 235px;
         line-height: 125%;
@@ -147,12 +151,16 @@ class GenericDIP(Component):
             svg('text', connector.get('label', connector_id), x=390, y=300 * level + 50, _class='pin-label', style='text-anchor: start')
             svg('text', n, x=234, y=300 * level - 30, _class='pin-label', style='text-anchor: end')
             svg('line', x1=15, x2=300, y1=300 * level + 15, y2=300 * level + 15, _class='connector')
+            svg('rect', id='connector%spin'      % connector_id, x=0, y=300 * level, width=300, height=30, _class='connector')
+            svg('rect', id='connector%sterminal' % connector_id, x=0, y=300 * level, width=30 , height=30, _class='connector')
           elif n > 0 and n <= pins:
             # Right
             level = pins + 1 - n
             svg('text', connector.get('label', connector_id), x=1440, y=300 * level + 50, _class='pin-label', style='text-anchor: end')
             svg('text', n, x=1595, y=300 * level - 30, _class='pin-label', style='text-anchor: start')
             svg('line', x1=1515, x2=1800, y1=300 * level + 15, y2=300 * level + 15, _class='connector')
+            svg('rect', id='connector%spin'      % connector_id, x=1530, y=300 * level, width=300, height=30, _class='connector')
+            svg('rect', id='connector%sterminal' % connector_id, x=1800, y=300 * level, width=30, height=30, _class='connector')
 
     return svg
 
@@ -186,11 +194,11 @@ class GenericDIP(Component):
               if n == 1:
                 # First pin has square outline to make it easy to identify
                 svg('rect', x=32.5, y=(100 * level - 67.5), width=55, height=55, _class='copper-hole')
-              svg('circle', cx=60, cy=(100 * level - 40), r=27.5, _class='copper-hole')
+              svg('circle', id='connector%spin' % connector_id, cx=60, cy=(100 * level - 40), r=27.5, _class='copper-hole')
             elif n > 0 and n <= pins:
               # Right
               level = pins + 1 - n
-              svg('circle', cx=360, cy=(100 * level - 40), r=27.5, _class='copper-hole')
+              svg('circle', id='connector%spin' % connector_id, cx=360, cy=(100 * level - 40), r=27.5, _class='copper-hole')
 
       # Silk screen layer
       with svg('g', id='silkscreen'):
@@ -240,24 +248,30 @@ class GenericDIP(Component):
           svg('text', label1, x=65, y=165, fill='#e6e6e6', _class='label')
 
         # Pins
-        for level in range(pins / 2):
-          # Top row
-          svg('rect', x=(100 * level + 35), y=0, width=30, height=43.4, fill='#8c8c8c')
-          if level == 0: # Leftmost column
-            points='85,43.4,85,32.6,65,23.4,35,23.4,35,43.4'
-          elif level == pins / 2 - 1: # Rightmost column
-            points='64,43.4,65,23.4,35,23.4,15,32.6,15,43.4'
-          else: # All the others
-            points='85,43.4,85,32.6,65,23.4,35,23.4,15,32.6,15,43.4'
-          svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c')
-          # Bottom row
-          svg('rect', x=(100 * level + 35), y=286.6, width=30, height=43.4, fill='#8c8c8c')
-          if level == 0: # Leftmost column
-            points='35,286.6,35,306.6,65,306.6,85,297.4,85,286.6'
-          elif level == pins / 2 - 1: # Rightmost column
-            points='15,286.6,15,297.4,35,306.6,65,306.6,65,286.6'
-          else: # All the others
-            points='15,286.6,15,297.4,35,306.6,65,306.6,85,297.4,85,286.6'
-          svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c')
+        for pin in range(pins):
+          level = math.floor(pin / 2)
+          pin_label = pin + 1
+          if pin % 2 == 0:
+            # Top row
+            svg('rect', id='connector%dpin'      % pin_label, x=(100 * level + 35), y=0, width=30, height=43.4, fill='#8c8c8c')
+            svg('rect', id='connector%dterminal' % pin_label, x=(100 * level + 35), y=0, width=30, height=30  , fill='#8c8c8c')
+            if level == 0: # Leftmost column
+              points='85,43.4,85,32.6,65,23.4,35,23.4,35,43.4'
+            elif level == pins / 2 - 1: # Rightmost column
+              points='64,43.4,65,23.4,35,23.4,15,32.6,15,43.4'
+            else: # All the others
+              points='85,43.4,85,32.6,65,23.4,35,23.4,15,32.6,15,43.4'
+            svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c')
+          else:
+            # Bottom row
+            svg('rect', id='connector%dpin'      % pin_label, x=(100 * level + 35), y=286.6, width=30, height=43.4, fill='#8c8c8c')
+            svg('rect', id='connector%dterminal' % pin_label, x=(100 * level + 35), y=300,   width=30, height=30  , fill='#8c8c8c')
+            if level == 0: # Leftmost column
+              points='35,286.6,35,306.6,65,306.6,85,297.4,85,286.6'
+            elif level == pins / 2 - 1: # Rightmost column
+              points='15,286.6,15,297.4,35,306.6,65,306.6,65,286.6'
+            else: # All the others
+              points='15,286.6,15,297.4,35,306.6,65,306.6,85,297.4,85,286.6'
+            svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c')
 
     return svg
