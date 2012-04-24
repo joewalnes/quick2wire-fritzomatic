@@ -25,8 +25,8 @@ The application is hosted on [Heroku Cedar Stack](https://devcenter.heroku.com/a
 
 Dependencies:
 
-    flask               # pip install flask
-    heroku toolbelt     # See https://toolbelt.heroku.com/
+    pip install -r requirements.txt # installs required libraries
+    # Also, see https://toolbelt.heroku.com/ to install Heroku toolbelt
 
 To run locally:
 
