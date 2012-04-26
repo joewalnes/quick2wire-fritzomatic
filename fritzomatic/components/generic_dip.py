@@ -217,30 +217,31 @@ class GenericDIP(Component):
           svg('text', label1, x=65, y=165, fill='#e6e6e6', stroke__width=0, font__family='OCRA', text__anchor='start', stroke='none', font__size=80)
 
         # Pins
-        for pin in range(pins):
-          level = math.floor(pin / 2)
-          pin_label = pin + 1
-          if pin % 2 == 0:
-            # Top row
-            svg('rect', id='connector%dpin'      % pin_label, x=(100 * level + 35), y=0, width=30, height=43.4, fill='#8c8c8c', stroke__width=0)
-            svg('rect', id='connector%dterminal' % pin_label, x=(100 * level + 35), y=0, width=30, height=30  , fill='#8c8c8c', stroke__width=0)
-            if level == 0: # Leftmost column
-              points='85,43.4,85,32.6,65,23.4,35,23.4,35,43.4'
-            elif level == pins / 2 - 1: # Rightmost column
-              points='64,43.4,65,23.4,35,23.4,15,32.6,15,43.4'
-            else: # All the others
-              points='85,43.4,85,32.6,65,23.4,35,23.4,15,32.6,15,43.4'
-            svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c', stroke__width=0)
-          else:
+        for connector_id, connector in self.data.get('connectors', {}).items():
+          n = int(connector_id)
+          if n > 0 and n <= pins / 2:
             # Bottom row
-            svg('rect', id='connector%dpin'      % pin_label, x=(100 * level + 35), y=286.6, width=30, height=43.4, fill='#8c8c8c', stroke__width=0)
-            svg('rect', id='connector%dterminal' % pin_label, x=(100 * level + 35), y=300,   width=30, height=30  , fill='#8c8c8c', stroke__width=0)
-            if level == 0: # Leftmost column
+            level = n
+            svg('rect', id='connector%spin'      % connector_id, x=(100 * level - 65), y=286.6, width=30, height=43.4, fill='#8c8c8c', stroke__width=0)
+            svg('rect', id='connector%sterminal' % connector_id, x=(100 * level - 65), y=300,   width=30, height=30  , fill='#8c8c8c', stroke__width=0)
+            if level == 1: # Leftmost column
               points='35,286.6,35,306.6,65,306.6,85,297.4,85,286.6'
-            elif level == pins / 2 - 1: # Rightmost column
+            elif level == pins / 2: # Rightmost column
               points='15,286.6,15,297.4,35,306.6,65,306.6,65,286.6'
             else: # All the others
               points='15,286.6,15,297.4,35,306.6,65,306.6,85,297.4,85,286.6'
-            svg('polygon', points=points, transform='translate(' + str(100 * level) + ',0)', fill='#8c8c8c', stroke__width=0)
+            svg('polygon', points=points, transform='translate(' + str(100 * level - 100) + ',0)', fill='#8c8c8c', stroke__width=0)
+          elif n > 0 and n <= pins:
+            # Top row
+            level = pins + 1 - n
+            svg('rect', id='connector%spin'      % connector_id, x=(100 * level - 65), y=0, width=30, height=43.4, fill='#8c8c8c', stroke__width=0)
+            svg('rect', id='connector%sterminal' % connector_id, x=(100 * level - 65), y=0, width=30, height=30  , fill='#8c8c8c', stroke__width=0)
+            if level == 1: # Leftmost column
+              points='85,43.4,85,32.6,65,23.4,35,23.4,35,43.4'
+            elif level == pins / 2: # Rightmost column
+              points='64,43.4,65,23.4,35,23.4,15,32.6,15,43.4'
+            else: # All the others
+              points='85,43.4,85,32.6,65,23.4,35,23.4,15,32.6,15,43.4'
+            svg('polygon', points=points, transform='translate(' + str(100 * level - 100) + ',0)', fill='#8c8c8c', stroke__width=0)
 
     return svg
