@@ -11,9 +11,17 @@ from flask import make_response, send_from_directory, url_for, redirect, render_
 app = Flask(__name__)
 
 def parse_component(data):
-  # TODO: Support multiple components.
   # TODO: Validate
   return GenericDIP(from_urltoken(data))
+
+def svg_response(svg):
+  if 'size' in request.args:
+    # If size=??? is specified in URL, override <svg width=... height=...>
+    size = str(int(request.args['size'])) # Check it's a number
+    root = svg.document.childNodes[0]
+    root.setAttribute('width', size)
+    root.setAttribute('height', size)
+  return Response(str(svg), mimetype='image/svg+xml')
 
 @app.route('/')
 def homepage():
@@ -52,22 +60,22 @@ def partdata(data):
 @app.route('/component/<data>/icon')
 def icon(data):
   component = parse_component(data)
-  return Response(str(component.icon()), mimetype='image/svg+xml')
+  return svg_response(component.icon())
 
 @app.route('/component/<data>/breadboard')
 def breadboard(data):
   component = parse_component(data)
-  return Response(str(component.breadboard()), mimetype='image/svg+xml')
+  return svg_response(component.breadboard())
 
 @app.route('/component/<data>/schematic')
 def schematic(data):
   component = parse_component(data)
-  return Response(str(component.schematic()), mimetype='image/svg+xml')
+  return svg_response(component.schematic())
 
 @app.route('/component/<data>/pcb')
 def pcb(data):
   component = parse_component(data)
-  return Response(str(component.pcb()), mimetype='image/svg+xml')
+  return svg_response(component.pcb())
 
 @app.route('/component/<data>/id')
 def module_id(data):

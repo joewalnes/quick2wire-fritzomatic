@@ -98,13 +98,13 @@ class GenericDIP(Component):
     else:
       label1 = self.data.get('label', 'IC')
       label2 = None
-    return self._breadboard_component('icon', '0.3in', pins, label1, label2)
+    return self._breadboard_component('icon', pins, label1, label2)
 
   def breadboard(self):
     pins = self.data['pins']
     label1 = self.data.get('label', 'IC')
     label2 = None
-    return self._breadboard_component('breadboard', '300', pins, label1, label2)
+    return self._breadboard_component('breadboard', pins, label1, label2)
 
   def schematic(self):
     css = """
@@ -135,7 +135,12 @@ class GenericDIP(Component):
     svg = XMLBuilder()
     pins = self.data['pins']
 
-    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 1830 ' + str(300 * pins / 2 + 670)):
+    width = 1830
+    height = 150 * pins + 670
+    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2',
+        width='%fin' % (width / 1000.0),
+        height='%fin' % (height / 1000.0),
+        viewBox='0 0 %d %d' % (width, height)):
       with svg('defs'):
         svg('style', css, type='text/css')
       with svg('g', id='schematic', transform='translate(0, 333)'):
@@ -179,7 +184,12 @@ class GenericDIP(Component):
     svg = XMLBuilder()
     pins = self.data['pins']
 
-    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=300, height=300, viewBox='0 0 420 ' + str(50 * pins + 20)):
+    width = 420
+    height = 50 * pins + 20
+    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2',
+        width='%fin' % (width / 1000.0),
+        height='%fin' % (height / 1000.0),
+        viewBox='0 0 %d %d' % (width, height)):
       with svg('defs'):
         svg('style', css, type='text/css')
 
@@ -211,7 +221,7 @@ class GenericDIP(Component):
 
     return svg
 
-  def _breadboard_component(self, layer_id, size, pins, label1, label2):
+  def _breadboard_component(self, layer_id, pins, label1, label2):
     css = """
       rect, polygon, path, circle, text {
         stroke-width: 0;
@@ -224,7 +234,11 @@ class GenericDIP(Component):
     """
     svg = XMLBuilder()
     width = pins * 50
-    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2', width=size, height=size, viewBox='0 0 ' + str(width) + ' 330'):
+    height = 330
+    with svg('svg', xmlns='http://www.w3.org/2000/svg', version='1.2',
+        width='%fin' % (width / 1000.0),
+        height='%fin' % (height / 1000.0),
+        viewBox='0 0 %d %d' % (width, height)):
       with svg('defs'):
         svg('style', css, type='text/css')
       with svg('g', id=layer_id):
