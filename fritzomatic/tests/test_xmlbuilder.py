@@ -54,5 +54,17 @@ class XMLBuilderTestCase(unittest.TestCase):
  """
     self.assertText(expected, node)
 
+  def test_allows_dash_to_be_specified_with_double_underscore(self):
+    node = XMLBuilder()
+    with node('people'):
+      node('person', last__name='person')
+    expected = """
+<?xml version="1.0" ?>
+<people>
+  <person last-name="person"/>
+</people>
+ """
+    self.assertText(expected, node)
+
 if __name__ == '__main__':
   unittest.main()

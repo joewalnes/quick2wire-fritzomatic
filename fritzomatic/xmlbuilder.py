@@ -50,7 +50,8 @@ class XMLBuilder(object):
     if text:
       el.appendChild(self.document.createTextNode(str(text)))
     for name in kwargs:
-      cleaned_name = re.compile('^_').sub('', name)
+      cleaned_name = re.compile('__').sub('-', name)
+      cleaned_name = re.compile('^_').sub('', cleaned_name)
       el.setAttribute(cleaned_name, str(kwargs[name]))
     self.last = el
     self.parent.appendChild(el)
