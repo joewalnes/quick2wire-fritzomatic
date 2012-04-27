@@ -57,6 +57,15 @@
     line-height: 13px;
     font-weight: bold;
   }
+  .btn-massive {
+    font-size: 30px;
+    font-family: Audiowide, sans-serif;
+    padding: 20px;
+    margin: 20px;
+  }
+  .btn-massive:hover {
+    color: #ffff99;
+  }
 </style>
 
 <!-- Google Analytics -->
@@ -101,10 +110,11 @@
       <a href="pcb"><img src="pcb?size=300" style="background-color: #69947a; width: 300px; height: 300px;"></a>
     </div>
 
-    <div class="span12">
-      <a href="fzpz" class="btn">Download Fritzing Component</a>
-      <a href="json" class="btn">Download JSON</a>
-      Module ID: <code>{{ component.module_id() }}</code>
+    <div class="span12" style="text-align: center">
+      <a href="fzpz" class="btn btn-primary btn-massive">Download Fritzing Component</a><br/>
+      Module ID: <code>{{ component.module_id() }}</code>,
+      <a href="json">json</a>,
+      <a href="fzp">fzp</a>
     </div>
 
   </div>
