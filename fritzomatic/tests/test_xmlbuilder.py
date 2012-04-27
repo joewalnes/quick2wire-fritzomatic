@@ -7,6 +7,7 @@ from fritzomatic.xmlbuilder import XMLBuilder
 class XMLBuilderTestCase(unittest.TestCase):
 
   def assertText(self, a, b):
+    #print '====\n%s\n----\n%s\n====' % (str(a).strip(), str(b).strip())
     self.assertEqual(str(a).strip(), str(b).strip())
 
   def test_it(self):
@@ -20,23 +21,14 @@ class XMLBuilderTestCase(unittest.TestCase):
         node('last-name', 'Christmas')
 
     expected = """
-<?xml version="1.0" ?>
 <people>
-  <person id="123" type="real">
-    <first-name>
-      Joe
-    </first-name>
-    <last-name>
-      Walnes
-    </last-name>
+  <person type="real" id="123">
+    <first-name>Joe</first-name>
+    <last-name>Walnes</last-name>
   </person>
-  <person id="456" type="fictional">
-    <first-name>
-      Father
-    </first-name>
-    <last-name>
-      Christmas
-    </last-name>
+  <person type="fictional" id="456">
+    <first-name>Father</first-name>
+    <last-name>Christmas</last-name>
   </person>
 </people>
  """
@@ -47,7 +39,6 @@ class XMLBuilderTestCase(unittest.TestCase):
     with node('people'):
       node('person', _class='of 78')
     expected = """
-<?xml version="1.0" ?>
 <people>
   <person class="of 78"/>
 </people>
@@ -59,9 +50,19 @@ class XMLBuilderTestCase(unittest.TestCase):
     with node('people'):
       node('person', last__name='person')
     expected = """
-<?xml version="1.0" ?>
 <people>
   <person last-name="person"/>
+</people>
+ """
+    self.assertText(expected, node)
+
+  def test_escapes_dodgy_chars(self):
+    node = XMLBuilder()
+    with node('people'):
+      node('person', '&<>"', xname='&<>"')
+    expected = """
+<people>
+  <person xname="&amp;&lt;&gt;&quot;">&amp;&lt;&gt;&quot;</person>
 </people>
  """
     self.assertText(expected, node)

@@ -29,10 +29,10 @@ class GenericDIP(Component):
         fritzingVersion='0.7.1b.03.10.5908',
         moduleId=self.module_id()):
       # Core info
-      meta('version', '4') # TODO
+      meta('version', '4')
       meta('author', 'Fritzomatic') # TODO
       meta('title', self.title())
-      meta('label', self.label())
+      meta('label', 'IC')
       meta('date', '2012-04-16') # TODO
 
       # Tags
@@ -43,10 +43,10 @@ class GenericDIP(Component):
       # Additional properties
       properties = {
           'package'            : 'DIP (Dual Inline) [THT]',
-          'family'             : self.label(), # TODO
+          'family'             : self.label(),
           'editable pin labels': 'false',
           'chip label'         : self.label(),
-          'part number'        : self.title(),
+          'part number'        : self.label(),
           'pins'               : self.data['pins'],
           'spacing'            : '300mil',
       }

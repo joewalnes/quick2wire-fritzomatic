@@ -52,8 +52,8 @@ def dump_json(data):
   component = parse_component(data)
   return Response(str(component.json()), mimetype='text/plain')
 
-@app.route('/component/<data>/partdata')
-def partdata(data):
+@app.route('/component/<data>/fzp')
+def fzp(data):
   component = parse_component(data)
   return Response(str(component.metadata()), mimetype='text/xml')
 

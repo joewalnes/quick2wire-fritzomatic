@@ -6,6 +6,7 @@ Easy XML document builder.
 
 import re
 
+from StringIO import StringIO
 from xml.dom.minidom import Document
 
 class XMLBuilder(object):
@@ -64,4 +65,34 @@ class XMLBuilder(object):
     self.parent = self.parent.parentNode
 
   def __str__(self):
-    return self.document.toprettyxml(indent='  ')
+    # Minidom has a toprettyxml() method, but it outputs additional whitespace around text
+    # nodes, which confuses Fritzing. This is a cut-down XML pretty printer. It doesn't
+    # deal with every possible XML document - but it will cope with anything that xmlbuilder
+    # can build.
+
+    def escape(str):
+      return str.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+
+    def write(out, element, indent):
+      out.write('%s<%s' % (indent, escape(element.tagName)))
+      for k, v in element.attributes.items():
+        out.write(' %s="%s"' % (escape(k), escape(v)))
+      if len(element.childNodes) == 1 and element.childNodes[0].nodeType == Document.TEXT_NODE:
+        # If the child is a single text node, write it on the same line.
+        out.write('>%s</%s>\n' % (escape(element.childNodes[0].data), escape(element.tagName)))
+      elif element.childNodes:
+        # Otherwise, indent and recurse to children
+        out.write('>\n')
+        for child in element.childNodes:
+          if child.nodeType == Document.ELEMENT_NODE:
+            write(out, child, indent + '  ')
+        out.write('%s</%s>\n' % (indent, escape(element.tagName)))
+      else:
+        # Empty elements
+        out.write('/>\n')
+
+    out = StringIO()
+    write(out, self.document.childNodes[0], '')
+    out.seek(0)
+    return out.getvalue()
+
