@@ -42,6 +42,15 @@ def update():
   else:
     return 'No data'
 
+@app.route('/encode-json', methods=['POST'])
+def encode_json():
+  data = request.form.get('data')
+  if data:
+    encoded = to_urltoken(from_json(data))
+    return encoded
+  else:
+    return 'No data'
+
 @app.route('/component/<data>/')
 def summary(data):
   component = parse_component(data)

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<title>Fritzomatic</title>
+
+<!-- Google WebFonts: http://www.google.com/webfonts#UsePlace:use/Collection:Audiowide -->
+<link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="lib/bootstrap.min.css">
+<link rel="stylesheet" href="editor.css">
+<script src="lib/jquery-1.7.1.min.js"></script>
+<script src="lib/ace/ace.js"></script>
+<script src="lib/ace/mode-json.js"></script>
+<script src="editor.js"></script>
+
+<header>
+  <img id="icon-preview">
+  <h1 id="component-title"></h1>
+</header>
+
+<div id="editor">{
+  "type": "generic-dip", 
+  "title": "Microchip MCP23008 8-bit I/O expander", 
+  "label": "MCP23008", 
+  "description": "Provides 8-bit, general purpose, parallel I/O expansion for I2C bus.\n\nDatasheet: http://ww1.microchip.com/downloads/en/devicedoc/21919e.pdf", 
+  "tags": [
+    "DIP", 
+    "MCP23008", 
+    "IO", 
+    "Expander", 
+    "I2C"
+  ], 
+  "icon": {
+    "label1": "MCP2", 
+    "label2": "3008"
+  }, 
+  "pins": 18, 
+  "connectors": {
+    "1": {
+      "label": "SCL", 
+      "description": "Serial clock input."
+    }, 
+    "2": {
+      "label": "SDA", 
+      "description": "Serial data I/O."
+    }, 
+    "3": {
+      "label": "A2", 
+      "description": "Hardware address input. Must be biased externally."
+    }, 
+    "4": {
+      "label": "A1", 
+      "description": "Hardware address input. Must be biased externally."
+    }, 
+    "5": {
+      "label": "A0", 
+      "description": "Hardware address input. Must be biased externally."
+    }, 
+    "6": {
+      "label": "Reset", 
+      "description": "External reset input. Must be biased externally."
+    }, 
+    "7": {
+      "label": "NC", 
+      "description": "No connect."
+    }, 
+    "8": {
+      "label": "INT", 
+      "description": "Interrupt output. Can be configured for active-high, active-low or open-drain."
+    }, 
+    "9": {
+      "label": "VSS", 
+      "description": "Ground."
+    }, 
+    "10": {
+      "label": "GP0", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "11": {
+      "label": "GP1", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "12": {
+      "label": "GP2", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "13": {
+      "label": "GP3", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "14": {
+      "label": "GP4", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "15": {
+      "label": "GP5", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "16": {
+      "label": "GP6", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "17": {
+      "label": "GP7", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }, 
+    "18": {
+      "label": "VDD", 
+      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+    }
+  }
+}</div>
+
+<div id="preview">
+  <div class="preview-square"><img id="breadboard-preview"></div>
+  <div class="preview-square"><img id="schematic-preview" ></div>
+  <div class="preview-square"><img id="pcb-preview"       ></div>
+  <div class="preview-body">
+    <section id="description-block">
+      <h2>Description</h2>
+      <blockquote><p id="description"></p></blockquote>
+    </section>
+    <section id="tags-block">
+      <h2>Tags</h2>
+      <p id="tags">
+        <span class="label template" style="margin-right: 4px;"></span>
+      </p>
+    </section>
+    <section id="connections-block">
+      <h2>Connections</h2>
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="template">
+            <td class="connection-id"></td>
+            <td class="connection-name"></td>
+            <td class="connection-description"></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>
