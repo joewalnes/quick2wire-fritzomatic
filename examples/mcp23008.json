@@ -86,7 +86,7 @@
     },
     "18": {
       "label": "VDD",
-      "description": "Bidirectional I/O pin. Can be enabled for interrupt-on-change and/or internal weak pull-up resistor."
+      "description": "Power."
     }
   }
 }
