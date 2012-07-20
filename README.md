@@ -4,7 +4,7 @@ Fritz-o-matic: A simple part generator for http://fritzing.org/
 Background
 ----------
 
-This is a little Python script that simplifies the process of generating
+This is a web-app that simplifies the process of generating
 a generic IC component that can be re-used in [Fritzing](http://fritzing.org/).
 
 Fritzing is a great tool for creating bread-boarded electronics designs,
@@ -12,14 +12,15 @@ schematics, and PCB layouts - assuming you have the necessary components.
 Unfortunately, building components is still a fairly tedious and messy
 process. This script automates that.
 
+Usage
+-----
 
-Running
+Goto [http://fritzomatic.quick2wire.com](http://fritzomatic.quick2wire.com) to build and download your own component.
+
+Hacking
 -------
 
-Include this checkout directory in your `PYTHONPATH`.
-
-    export PYTHONPATH=.
-    ./fritzomatic/main.py examples/mcp23008.py
+This is only if you need to make changes to the application itself.
 
 The application is hosted on [Heroku Cedar Stack](https://devcenter.heroku.com/articles/cedar).
 
