@@ -37,3 +37,7 @@ To run locally:
 To deploy live, to http://fritzomatic.quick2wire.com :
 
     make live
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/joewalnes/quick2wire-fritzomatic/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
