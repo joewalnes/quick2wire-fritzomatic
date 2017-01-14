@@ -15,7 +15,7 @@ process. This script automates that.
 Usage
 -----
 
-Goto [http://fritzomatic.quick2wire.com](http://fritzomatic.quick2wire.com) to build and download your own component.
+Goto [fritzomatic.joewalnes.com](http://fritzomatic.joewalnes.com) to build and download your own component.
 
 Hacking
 -------
